@@ -28,15 +28,14 @@ const operate = function (operator, a, b) {
     } else if (operator === '/') {
         return divide(a, b);
     }
+
+
 }
 
-function updateDisplay() {
+function updateDisplay(a) {
     let display = document.querySelector('.display__result');
     display.color = 'black';
     display.textContent = parseInt(a);
-    if (operator != '') {
-        display.textContent = parseInt(b);
-    }
 }
 
 function historyDisplay() {
@@ -89,12 +88,13 @@ numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         if (operator === '') {
             a = parseInt(a + button.textContent);
+            updateDisplay(a);
         }
         else {
             b = parseInt(b + button.textContent);
+            updateDisplay(b);
         }
         console.log(a + " " + operator + " " + b);
-        updateDisplay();
     });
 });
 
@@ -104,7 +104,7 @@ operatorButtons.forEach((button) => {
         operator = button.textContent;
         if (a != 0 && b!=0) {
             a = operate(operator, a, b);
-            updateDisplay();
+            updateDisplay(a);
             operator = '';    
             b = 0;
         }
