@@ -52,12 +52,12 @@ function historyDisplay() {
     }
 }
 
-// function clearDisplay() {
-//     let display = document.querySelector('.display__result');
-//     display.textContent = '';
-//     display = document.querySelector('.display__history');
-//     display.textContent = '';
-// }
+function clearDisplay() {
+    let display = document.querySelector('.display__result');
+    display.textContent = '';
+    display = document.querySelector('.display__history');
+    display.textContent = '';
+}
 
 const equalsButton = document.querySelector('.buttons__item--equal');
 equalsButton.addEventListener('click', () => {
@@ -82,23 +82,48 @@ equalsButton.addEventListener('click', () => {
     }
 });
 
-// const clearButton = document.querySelector('.buttons__item--clear');
-// clearButton.addEventListener('click', () => {
-//     clearDisplay();
-//     a = 0;
-//     b = 0;
-//     operator = '';
-// });
+const clearButton = document.querySelector('.buttons__item--clear');
+clearButton.addEventListener('click', () => {
+    clearDisplay();
+    a = undefined;
+    b = undefined;
+    operator = '';
+});
 
-// function deleteLast() {
-//     let display = document.querySelector('.display__result');
-//     display.textContent = display.textContent.slice(0, -1);
-// }
+function deleteLast() {
+    let empty = false;
+    let display = document.querySelector('.display__result');
+    display.textContent = display.textContent.slice(0, -1);
+    if (display.textContent.length === 0) {
+        display.textContent = 0;
+        empty = true;
+    }
+    console.log("line 97: " + a);
+    if (b == undefined) {
+        if (empty) {
+            a = 0;
+        }
+        else {
+            a = parseInt(a.toString().slice(0, -1));
+        }
+        console.log("line 99: " + a);
+    }
+    else {
+        console.log("line 102: " + b);
+        if (empty) {
+            b = 0;
+        }
+        else {
+            b = parseInt(b.toString().slice(0, -1));
+        }
+        console.log("line 104: " + b); 
+    }
+}
 
-// const deleteButton = document.querySelector('.buttons__item--delete');
-// deleteButton.addEventListener('click', () => {
-//     deleteLast();
-// });
+const deleteButton = document.querySelector('.buttons__item--backspace');
+deleteButton.addEventListener('click', () => {
+    deleteLast();
+});
 
 function clearResult() {
     let display = document.querySelector('.display__result');
