@@ -19,6 +19,17 @@ const divide = function (a, b) {
     return a / b;
 }
 
+const recursiveFactorial = function (n) {
+    if (n === 0) {
+      return 1;
+    }
+    return n * recursiveFactorial(n - 1);
+};
+
+const power = function (a, b) {
+    return Math.pow(a, b);
+};
+
 const operate = function (operator, a, b) {
     if (operator === '+') {
         return add(a, b);
@@ -33,10 +44,13 @@ const operate = function (operator, a, b) {
             display.textContent = a + " " + operator + " " + b + ' =';
         }
         return divide(a, b);
+    } else if (operator === '^') {
+        return power(a, b);
     }
-
-
-}
+    else if (operator === '!') {
+        return recursiveFactorial(a);
+    }
+};
 
 function updateDisplay(a) {
     let display = document.querySelector('.display__result');
