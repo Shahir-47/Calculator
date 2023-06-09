@@ -1,6 +1,7 @@
 let a;
 let b;
 let operator = '';
+let result;
 
 const add = function (a, b) {
     return a + b;
@@ -62,7 +63,6 @@ function clearDisplay() {
 const equalsButton = document.querySelector('.buttons__item--equal');
 equalsButton.addEventListener('click', () => {
     let display = document.querySelector('.display__history');
-    let result;
     display.color = 'black';
     if (!isNaN(a) && !isNaN(b)) {
         result = operate(operator, a, b);
@@ -91,32 +91,50 @@ clearButton.addEventListener('click', () => {
 });
 
 function deleteLast() {
-    let empty = false;
+    let equalSign = document.querySelector('.display__history');
+    equalSign.color = 'black';
+
     let display = document.querySelector('.display__result');
-    display.textContent = display.textContent.slice(0, -1);
-    if (display.textContent.length === 0) {
-        display.textContent = 0;
-        empty = true;
-    }
-    console.log("line 97: " + a);
-    if (b == undefined) {
-        if (empty) {
-            a = 0;
+
+
+    // if (equalSign.textContent.indexOf('=') > -1 && display.textContent !== 'Error'){
+    //     display.textContent = display.textContent.slice(0, -1);
+    //     if (display.textContent.length === 0) {
+    //         display.textContent = 0;
+    //         alert('Cannot delete the result');
+    //     }
+    //     a = display.textContent;
+    //     console.log("line 107: " + a);
+
+    // }
+    if (display.textContent !== 'Error') {
+    
+        display.textContent = display.textContent.slice(0, -1);
+        if (display.textContent.length === 0) {
+            display.textContent = 0;
         }
-        else {
+        console.log("line 97: " + a);
+        if (b == undefined) {
+
             a = parseInt(a.toString().slice(0, -1));
-        }
-        console.log("line 99: " + a);
-    }
-    else {
-        console.log("line 102: " + b);
-        if (empty) {
-            b = 0;
+            if (isNaN(a) || a === 0) {
+                a = 0;
+            }
+            console.log("line 99: " + a);
         }
         else {
+            console.log("line 102: " + b);
             b = parseInt(b.toString().slice(0, -1));
+            if (isNaN(b) || b === 0) {
+                b = 0;
+            }
+            console.log("line 104: " + b); 
         }
-        console.log("line 104: " + b); 
+    } else if (display.textContent === 'Error'){
+        clearDisplay();
+        a = undefined;
+        b = undefined;
+        operator = '';
     }
 }
 
