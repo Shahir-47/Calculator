@@ -1,5 +1,5 @@
-let a = 0;
-let b = 0;
+let a;
+let b;
 let operator = '';
 
 const add = function (a, b) {
@@ -26,6 +26,11 @@ const operate = function (operator, a, b) {
     } else if (operator === 'x') {
         return multiply(a, b);
     } else if (operator === '÷') {
+        if (divide(a, b) === Infinity) {
+            let display = document.querySelector('.display__history');
+            display.color = 'black';
+            display.textContent = a + " " + operator + " " + b + ' =';
+        }
         return divide(a, b);
     }
 
@@ -35,14 +40,16 @@ const operate = function (operator, a, b) {
 function updateDisplay(a) {
     let display = document.querySelector('.display__result');
     display.color = 'black';
-    display.textContent = parseInt(a);
+    display.textContent = a;
 }
 
 function historyDisplay() {
     let display = document.querySelector('.display__history');
     display.color = 'black';
-    display.textContent = a;
-    display.textContent += operator;
+    if (a !== undefined) {
+        console.log("line 45: " + a);
+        display.textContent = a + " " + operator;
+    }
 }
 
 // function clearDisplay() {
@@ -52,13 +59,28 @@ function historyDisplay() {
 //     display.textContent = '';
 // }
 
-// const equalsButton = document.querySelector('.buttons__item--equals');
-// equalsButton.addEventListener('click', () => {
-//     a = operate(operator, a, b);
-//     updateDisplay();
-//     operator = '';
-//     b = 0;
-// });
+const equalsButton = document.querySelector('.buttons__item--equal');
+equalsButton.addEventListener('click', () => {
+    let display = document.querySelector('.display__history');
+    let result;
+    display.color = 'black';
+    if (!isNaN(a) && !isNaN(b)) {
+        result = operate(operator, a, b);
+        if (result === Infinity) {
+            clearResult();
+            display.textContent = a + " " + operator + " " + b + ' =';
+            a = undefined;
+            b = undefined;
+            operator = '';
+            updateDisplay('Error');
+            console.log("line 67: " + a + " " + operator + " " + b);
+        }
+        else{
+            updateDisplay(result);
+            display.textContent = a + " " + operator + " " + b + ' =';
+        }
+    }
+});
 
 // const clearButton = document.querySelector('.buttons__item--clear');
 // clearButton.addEventListener('click', () => {
@@ -83,31 +105,53 @@ function clearResult() {
     display.textContent = '';
 }
 
-const numberButtons = document.querySelectorAll('.buttons__item--number');
-numberButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        if (operator === '') {
-            a = parseInt(a + button.textContent);
-            updateDisplay(a);
-        }
-        else {
-            b = parseInt(b + button.textContent);
-            updateDisplay(b);
-        }
-        console.log(a + " " + operator + " " + b);
+function calcActions() {
+    const numberButtons = document.querySelectorAll('.buttons__item--number');
+    numberButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            if (a === undefined) {
+                a = 0;
+            }
+            if (operator === '') {
+                a = parseInt(a + button.textContent);
+                updateDisplay(a);
+            }
+            else {
+                if (b === undefined) {
+                    b = 0;
+                }
+                console.log(b);
+                b = parseInt(b + button.textContent);
+                updateDisplay(b);
+            }
+            console.log(a + " " + operator + " " + b);
+        });
     });
-});
 
-const operatorButtons = document.querySelectorAll('.buttons__item--operator');
-operatorButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        lastOperator = operator;
-        operator = button.textContent;
-        if (b !== 0) {
-            a = operate(lastOperator, a, b);
-            updateDisplay(a);
-            b = 0;
-        }
-        historyDisplay();
+    const operatorButtons = document.querySelectorAll('.buttons__item--operator');
+    operatorButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            lastOperator = operator;
+            operator = button.textContent;
+            console.log(b);
+            if (a !== undefined && b !== undefined) {
+                a = operate(lastOperator, a, b);
+                console.log(a);
+                if (a === Infinity || isNaN(a)) {
+                    clearResult();
+                    a = undefined;
+                    b = undefined;
+                    operator = '';
+                    updateDisplay('Error');
+                    console.log("line 131: " + a + " " + operator + " " + b);
+                } else {
+                    updateDisplay(a);
+                    b = undefined;
+                }
+            }
+            historyDisplay();
+        });
     });
-});
+}
+
+calcActions();
