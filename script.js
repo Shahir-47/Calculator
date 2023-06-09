@@ -97,44 +97,43 @@ function deleteLast() {
     let display = document.querySelector('.display__result');
 
 
-    // if (equalSign.textContent.indexOf('=') > -1 && display.textContent !== 'Error'){
-    //     display.textContent = display.textContent.slice(0, -1);
-    //     if (display.textContent.length === 0) {
-    //         display.textContent = 0;
-    //         alert('Cannot delete the result');
-    //     }
-    //     a = display.textContent;
-    //     console.log("line 107: " + a);
-
-    // }
-    if (display.textContent !== 'Error') {
-    
+    if (equalSign.textContent.indexOf('=') > -1 && display.textContent !== 'Error'){
         display.textContent = display.textContent.slice(0, -1);
         if (display.textContent.length === 0) {
             display.textContent = 0;
         }
-        console.log("line 97: " + a);
-        if (b == undefined) {
+    }
+    else {
 
-            a = parseInt(a.toString().slice(0, -1));
-            if (isNaN(a) || a === 0) {
-                a = 0;
+        if (display.textContent !== 'Error') {
+        
+            display.textContent = display.textContent.slice(0, -1);
+            if (display.textContent.length === 0) {
+                display.textContent = 0;
             }
-            console.log("line 99: " + a);
-        }
-        else {
-            console.log("line 102: " + b);
-            b = parseInt(b.toString().slice(0, -1));
-            if (isNaN(b) || b === 0) {
-                b = 0;
+            console.log("line 97: " + a);
+            if (b == undefined) {
+
+                a = parseInt(a.toString().slice(0, -1));
+                if (isNaN(a) || a === 0) {
+                    a = 0;
+                }
+                console.log("line 99: " + a);
             }
-            console.log("line 104: " + b); 
+            else {
+                console.log("line 102: " + b);
+                b = parseInt(b.toString().slice(0, -1));
+                if (isNaN(b) || b === 0) {
+                    b = 0;
+                }
+                console.log("line 104: " + b); 
+            }
+        } else if (display.textContent === 'Error'){
+            clearDisplay();
+            a = undefined;
+            b = undefined;
+            operator = '';
         }
-    } else if (display.textContent === 'Error'){
-        clearDisplay();
-        a = undefined;
-        b = undefined;
-        operator = '';
     }
 }
 
@@ -149,6 +148,10 @@ function clearResult() {
 }
 
 function calcActions() {
+    let display = document.querySelector('.display__result');
+    let equalSign = document.querySelector('.display__history');
+    equalSign.color = 'black';
+
     const numberButtons = document.querySelectorAll('.buttons__item--number');
     numberButtons.forEach((button) => {
         button.addEventListener('click', () => {
@@ -159,13 +162,18 @@ function calcActions() {
                 a = parseInt(a + button.textContent);
                 updateDisplay(a);
             }
-            else {
-                if (b === undefined) {
-                    b = 0;
+            else{
+                if (equalSign.textContent.indexOf('=') > -1) {
+                    updateDisplay(display.textContent+=button.textContent);
                 }
-                console.log(b);
-                b = parseInt(b + button.textContent);
-                updateDisplay(b);
+                else {
+                    if (b === undefined) {
+                        b = 0;
+                    }
+                    console.log(b);
+                    b = parseInt(b + button.textContent);
+                    updateDisplay(b);
+                }
             }
             console.log(a + " " + operator + " " + b);
         });
@@ -179,7 +187,10 @@ function calcActions() {
             console.log(b);
             if (a !== undefined && b !== undefined) {
                 a = operate(lastOperator, a, b);
-                console.log(a);
+                console.log("189: " + a);
+                if (equalSign.textContent.indexOf('=') > -1 && display.textContent !== 'Error'){
+                    a = parseInt(display.textContent);
+                }
                 if (a === Infinity || isNaN(a)) {
                     clearResult();
                     a = undefined;
