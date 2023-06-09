@@ -47,9 +47,6 @@ const operate = function (operator, a, b) {
     } else if (operator === '^') {
         return power(a, b);
     }
-    else if (operator === '!') {
-        return recursiveFactorial(a);
-    }
 };
 
 function updateDisplay(a) {
@@ -154,6 +151,31 @@ function deleteLast() {
 const deleteButton = document.querySelector('.buttons__item--backspace');
 deleteButton.addEventListener('click', () => {
     deleteLast();
+});
+
+const factorialButton = document.querySelector('.buttons__item--factorial');
+factorialButton.addEventListener('click', () => {
+    let display = document.querySelector('.display__result');
+    let equalSign = document.querySelector('.display__history');
+    // equalSign.color = 'black';
+    // a = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
+    if (!(equalSign.textContent.indexOf('!') > -1)) {
+
+    
+        if (display.textContent !== 'Error') {
+            if (b !== undefined) {
+                equalSign.textContent = equalSign.textContent + display.textContent + '!';
+                b = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
+                console.log("line 166: " + b);
+                display.textContent = operate(operator, parseInt(equalSign.textContent), parseInt(b));
+            } else {
+                equalSign.textContent = display.textContent + '!';
+                a = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
+                console.log("line 169: " + a);
+                display.textContent = a;
+            }
+        }
+    }
 });
 
 function clearResult() {
