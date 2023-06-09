@@ -23,9 +23,9 @@ const operate = function (operator, a, b) {
         return add(a, b);
     } else if (operator === '-') {
         return subtract(a, b);
-    } else if (operator === '*') {
+    } else if (operator === 'x') {
         return multiply(a, b);
-    } else if (operator === '/') {
+    } else if (operator === '÷') {
         return divide(a, b);
     }
 
@@ -101,11 +101,11 @@ numberButtons.forEach((button) => {
 const operatorButtons = document.querySelectorAll('.buttons__item--operator');
 operatorButtons.forEach((button) => {
     button.addEventListener('click', () => {
+        lastOperator = operator;
         operator = button.textContent;
-        if (a != 0 && b!=0) {
-            a = operate(operator, a, b);
+        if (b !== 0) {
+            a = operate(lastOperator, a, b);
             updateDisplay(a);
-            operator = '';    
             b = 0;
         }
         historyDisplay();
