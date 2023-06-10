@@ -37,7 +37,7 @@ const power = function (a, b) {
 
 const operate = function (operator, a, b) {
     if (a >= 999999999999999 || a <= -999999999999999 || b >= 999999999999999 || b <= -999999999999999){
-        console.log("Too man");
+        
         return 'Overflow';
     } 
     if (operator === '+') {
@@ -72,7 +72,7 @@ function historyDisplay() {
     let display = document.querySelector('.display__history');
     display.color = 'black';
     if (a !== undefined) {
-        console.log("line 45: " + a);
+        
         display.textContent = a + " " + operator;
     }
 }
@@ -87,12 +87,11 @@ function clearDisplay() {
 // for the equals button
 const equalsButton = document.querySelector('.buttons__item--equal');
 equalsButton.addEventListener('click', () => {
-    console.log("enetr")
     let display = document.querySelector('.display__history');
     display.color = 'black';
     if (!isNaN(a) && !isNaN(b)) {
         result = operate(operator, parseFloat(a), parseFloat(b));
-        console.log("line 95: " + result);
+        
         if (result >= 999999999999999 || result <= -999999999999999) {
             result = 'Overflow';
         }
@@ -107,7 +106,7 @@ equalsButton.addEventListener('click', () => {
             b = undefined;
             operator = '';
             updateDisplay('Error');
-            console.log("line 67: " + a + " " + operator + " " + b);
+            
         } else if (result === 'Overflow') {
             clearDisplay();
             a = undefined;
@@ -154,22 +153,22 @@ function deleteLast() {
             if (display.textContent.length === 0) {
                 display.textContent = 0;
             }
-            console.log("line 97: " + a);
+            
             if (b == undefined) {
 
                 a = parseFloat(a.toString().slice(0, -1));
                 if (isNaN(a) || a === 0) {
                     a = 0;
                 }
-                console.log("line 99: " + a);
+                
             }
             else {
-                console.log("line 102: " + b);
+                
                 b = parseFloat(b.toString().slice(0, -1));
                 if (isNaN(b) || b === 0) {
                     b = 0;
                 }
-                console.log("line 104: " + b); 
+                 
             }
         } else if (display.textContent === 'Error'){
             clearDisplay();
@@ -192,8 +191,6 @@ const factorialButton = document.querySelector('.buttons__item--factorial');
 factorialButton.addEventListener('click', () => {
     let display = document.querySelector('.display__result');
     let equalSign = document.querySelector('.display__history');
-    // equalSign.color = 'black';
-    // a = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
     if (!(equalSign.textContent.indexOf('!') > -1)) {
         if (display.textContent !== 'Error') {
             if (b !== undefined) {
@@ -220,13 +217,13 @@ factorialButton.addEventListener('click', () => {
                         operator = '';
                         updateDisplay('Overflow');
                     } else {
-                        console.log("line 166: " + b);
+                        
                         display.textContent = operate(operator, parseFloat(equalSign.textContent), parseFloat(b));
                     }
                 }
             } else {
                 equalSign.textContent = display.textContent + '!';
-                console.log("line 196: " + a);
+                
                 if (a > 18) {
                     clearDisplay();
                     a = undefined;
@@ -245,7 +242,7 @@ factorialButton.addEventListener('click', () => {
                         equalSign.textContent = display.textContent + '!';
                     }
                     a = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
-                    console.log("line 198: " + a);
+                    
                     if (a == 'Overflow') {
                         clearDisplay();
                         a = undefined;
@@ -253,7 +250,7 @@ factorialButton.addEventListener('click', () => {
                         operator = '';
                         updateDisplay('Overflow');
                     } else {
-                        console.log("line 169: " + a);
+                        
                         display.textContent = a;
                     }
                 }
@@ -282,22 +279,22 @@ function calcActions() {
             }
 
             if (a > 999999999999999) {
-                Array(15).fill('a').forEach(item => console.log(item));
+                Array(15).fill('a');
             }
             else if (a < -999999999999999) {
-                Array(15).fill('a').forEach(item => console.log(item));;
+                Array(15).fill('a');
             }
 
             if (b > 999999999999999) {
-                Array(15).fill('b').forEach(item => console.log(item));
+                Array(15).fill('b');
             }
             else if (b < -999999999999999) {
-                Array(15).fill('b').forEach(item => console.log(item));
+                Array(15).fill('b');
             }
 
             if (operator === '') {
                 if (a < 999999999999999 && a > -999999999999999) {
-                    console.log(a + button.textContent);
+                    
                     a = a + button.textContent;
 
                     let occurrences_a = a.split('.').length - 1;
@@ -310,10 +307,10 @@ function calcActions() {
                         a = a.slice(0, -2)
                     }
 
-                    console.log(Number.isInteger(a[a.indexOf('.') + 1]));
+                    
                     if (a.indexOf('.') > -1 && Number.isInteger(a[a.indexOf('.') + 1])) {
                         let temp = a.split('.');
-                        console.log(temp);
+                        
                         if (temp[1].length > 15) {
                             a = parseFloat(a).toFixed(15);
                         }
@@ -335,7 +332,7 @@ function calcActions() {
                     if (b === undefined) {
                         b = 0;
                     }
-                    console.log(b);
+                    
                     if (b < 999999999999999 && b > -999999999999999) {
                         b = b + button.textContent;
 
@@ -351,7 +348,7 @@ function calcActions() {
 
                         if (b.indexOf('.') > -1 && Number.isInteger(b[b.indexOf('.') + 1])) {
                             let temp = b.split('.');
-                            console.log(temp);
+                            
                             if (temp[1].length > 15) {
                                 b = parseFloat(b).toFixed(15);
                             }
@@ -368,7 +365,7 @@ function calcActions() {
             }
             equalSign.color = 'black';
             equalSign.textContent = a + " " + operator;
-            console.log(a + " " + operator + " " + b);
+            
         });
     });
 
@@ -390,38 +387,38 @@ function calcActions() {
             } else {
                 lastOperator = operator;
                 operator = button.textContent;
-                console.log(b);
+                
                 if (a !== undefined && b !== undefined) {
                     a = operate(lastOperator, parseFloat(a), parseFloat(b));
                     if (a >= 999999999999999 || a <= -999999999999999) {
                         a = 'Overflow';
                     }
-                    console.log("line 381: " + a + "a.type: " + a.toString().length);
+                    
                     if (a.toString().length > 16) {
                         a = parseFloat(a).toFixed(16);
                         a = a.slice(0, -2)
-                        console.log("line 382: " + a);
+                        
                     }
-                    console.log("189: " + a);
+                    
                     if (equalSign.textContent.indexOf('=') > -1 && (display.textContent !== 'Error' || display.textContent !== 'Overflow')) {
                         a = parseFloat(display.textContent);
                     }
                     if ((a === Infinity || isNaN(a)) && a !== 'Overflow') {
 
-                        console.log("line 195: " + a);
+                        
                         clearResult();
                         a = undefined;
                         b = undefined;
                         operator = '';
                         updateDisplay('Error');
-                        console.log("line 131: " + a + " " + operator + " " + b);
+                        
                     } else if (a === 'Overflow'){
                         clearDisplay();
                         a = undefined;
                         b = undefined;
                         operator = '';
                         updateDisplay('Overflow');
-                        console.log("line 136: " + a + " " + operator + " " + b);
+                        
                     } else {
                         updateDisplay(a);
                         b = undefined;
@@ -443,17 +440,17 @@ document.addEventListener('keydown', (event) => {
     let equalSign = document.querySelector('.display__history');
     equalSign.color = 'black';
 
-    console.log(event);
+    
     event.preventDefault();
 
      // Helper function to simulate a click
     function handleButtonClick(selector) {
         const button = document.querySelector(selector);
-        console.log(button);
+        
         const tempColor = window.getComputedStyle(button).backgroundColor;
-        console.log(tempColor);
+        
         const darkerColor = darkenColor(tempColor);
-        console.log(darkerColor);
+        
 
         button.click();
         button.style.backgroundColor = darkerColor;
@@ -504,8 +501,8 @@ document.addEventListener('keydown', (event) => {
 function darkenColor(color, amount = 80) {
     // Remove the "rgb()" or "rgba()" part and extract the RGB values
     const rgbValues = color.replace(/^(rgb|rgba)\(/, '').replace(/\)$/, '').split(',');
-    console.log(color);
-    console.log(rgbValues);
+    
+    
     // Convert the RGB values to integers
     let r = parseInt(rgbValues[0]);
     let g = parseInt(rgbValues[1]);
@@ -518,6 +515,6 @@ function darkenColor(color, amount = 80) {
 
     // Generate the new darker color in RGB format
     const darkerColor = 'rgb(' + r + ',' + g + ',' + b + ')';
-    console.log(darkerColor);
+    
     return darkerColor;
   }
