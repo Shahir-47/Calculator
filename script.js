@@ -195,8 +195,6 @@ factorialButton.addEventListener('click', () => {
     // equalSign.color = 'black';
     // a = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
     if (!(equalSign.textContent.indexOf('!') > -1)) {
-
-    
         if (display.textContent !== 'Error') {
             if (b !== undefined) {
                 equalSign.textContent = equalSign.textContent + display.textContent + '!';
@@ -451,10 +449,17 @@ document.addEventListener('keydown', (event) => {
      // Helper function to simulate a click
     function handleButtonClick(selector) {
         const button = document.querySelector(selector);
-        button.click();
-        button.classList.add('active');
+        console.log(button);
+        const tempColor = window.getComputedStyle(button).backgroundColor;
+        console.log(tempColor);
+        const darkerColor = darkenColor(tempColor);
+        console.log(darkerColor);
 
+        button.click();
+        button.style.backgroundColor = darkerColor;
+        button.classList.add('active');
         setTimeout(() => {
+            button.style.backgroundColor = tempColor;
             button.classList.remove('active');
         }, 100); // Remove the "active" class after a short delay
     }
@@ -494,3 +499,25 @@ document.addEventListener('keydown', (event) => {
         handleButtonClick('.buttons__item--factorial');
     }
 });
+
+// Helper function to darken a color
+function darkenColor(color, amount = 80) {
+    // Remove the "rgb()" or "rgba()" part and extract the RGB values
+    const rgbValues = color.replace(/^(rgb|rgba)\(/, '').replace(/\)$/, '').split(',');
+    console.log(color);
+    console.log(rgbValues);
+    // Convert the RGB values to integers
+    let r = parseInt(rgbValues[0]);
+    let g = parseInt(rgbValues[1]);
+    let b = parseInt(rgbValues[2]);
+
+    // Darken the color by the specified amount
+    r = r - amount;
+    g = g - amount;
+    b = b - amount;
+
+    // Generate the new darker color in RGB format
+    const darkerColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+    console.log(darkerColor);
+    return darkerColor;
+  }

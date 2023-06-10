@@ -81,7 +81,7 @@ button:active {
 }
 
 .active{
-    background-color: #DCDCDC;
+    /* background-color: #DCDCDC; */
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
@@ -104,3 +104,35 @@ button:active {
 #first{
     justify-content: flex-end;
 }
+
+.buttons__item--operator {
+    background-color: #FF9500;
+    color: #fff;
+}
+
+
+.buttons__item--equal {
+    background-color: #58b41f;
+    color: #fff;
+}
+
+.buttons__item--clear {
+    background-color: #ea0b0b;
+    color: #fff;
+}
+
+.num-power{
+    background-color: blue;
+    color: #fff;
+}
+
+.buttons__item--factorial {
+    background-color: blue;
+    color: #fff;
+}
+
+.buttons__item--backspace {
+    background-color: #ffce1a;
+    color: #fff;
+}
+
