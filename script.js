@@ -288,6 +288,8 @@ function calcActions() {
                     }
                 }
             }
+            equalSign.color = 'black';
+            equalSign.textContent = a + " " + operator;
             console.log(a + " " + operator + " " + b);
         });
     });
