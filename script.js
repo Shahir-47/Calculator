@@ -20,10 +20,15 @@ const divide = function (a, b) {
 }
 
 const recursiveFactorial = function (n) {
-    if (n === 0) {
-      return 1;
+    if (n > 18){
+        return 'Overflow';
     }
-    return n * recursiveFactorial(n - 1);
+    else {
+        if (n === 0) {
+            return 1;
+        }
+        return n * recursiveFactorial(n - 1);
+    }
 };
 
 const power = function (a, b) {
@@ -31,6 +36,10 @@ const power = function (a, b) {
 };
 
 const operate = function (operator, a, b) {
+    if (a >= 999999999999999 || a <= -999999999999999 || b >= 999999999999999 || b <= -999999999999999){
+        console.log("Too man");
+        return 'Overflow';
+    } 
     if (operator === '+') {
         return add(a, b);
     } else if (operator === '-') {
@@ -77,7 +86,10 @@ equalsButton.addEventListener('click', () => {
     display.color = 'black';
     if (!isNaN(a) && !isNaN(b)) {
         result = operate(operator, a, b);
-        if (result === Infinity) {
+        if (result >= 999999999999999 || result <= -999999999999999) {
+            result = 'Overflow';
+        }
+        if (result === Infinity || isNaN(result) && result !== 'Overflow') {
             clearResult();
             display.textContent = a + " " + operator + " " + b + ' =';
             a = undefined;
@@ -85,6 +97,12 @@ equalsButton.addEventListener('click', () => {
             operator = '';
             updateDisplay('Error');
             console.log("line 67: " + a + " " + operator + " " + b);
+        } else if (result === 'Overflow') {
+            clearDisplay();
+            a = undefined;
+            b = undefined;
+            operator = '';
+            updateDisplay('Overflow');
         }
         else{
             updateDisplay(result);
@@ -165,14 +183,49 @@ factorialButton.addEventListener('click', () => {
         if (display.textContent !== 'Error') {
             if (b !== undefined) {
                 equalSign.textContent = equalSign.textContent + display.textContent + '!';
-                b = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
-                console.log("line 166: " + b);
-                display.textContent = operate(operator, parseInt(equalSign.textContent), parseInt(b));
+                if (b > 18) {
+                    clearResult();
+                    a = undefined;
+                    b = undefined;
+                    operator = '';
+                    updateDisplay('Overflow');
+                }
+                else {
+                    b = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
+                    if (b == 'Overflow') {
+                        clearDisplay();
+                        a = undefined;
+                        b = undefined;
+                        operator = '';
+                        updateDisplay('Overflow');
+                    } else {
+                        console.log("line 166: " + b);
+                        display.textContent = operate(operator, parseInt(equalSign.textContent), parseInt(b));
+                    }
+                }
             } else {
                 equalSign.textContent = display.textContent + '!';
-                a = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
-                console.log("line 169: " + a);
-                display.textContent = a;
+                console.log("line 196: " + a);
+                if (a > 18) {
+                    clearDisplay();
+                    a = undefined;
+                    b = undefined;
+                    operator = '';
+                    updateDisplay('Overflow');
+                } else {
+                    a = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
+                    console.log("line 198: " + a);
+                    if (a == 'Overflow') {
+                        clearDisplay();
+                        a = undefined;
+                        b = undefined;
+                        operator = '';
+                        updateDisplay('Overflow');
+                    } else {
+                        console.log("line 169: " + a);
+                        display.textContent = a;
+                    }
+                }
             }
         }
     }
@@ -194,9 +247,27 @@ function calcActions() {
             if (a === undefined) {
                 a = 0;
             }
+
+            if (a >= 999999999999999) {
+                console.log("Too many numbers");
+                a = 999999999999999;
+            }
+            else if (a <= -999999999999999) {
+                a = -999999999999999;
+            }
+
+            if (b >= 999999999999999) {
+                b = 999999999999999;
+            }
+            else if (b <= -999999999999999) {
+                b = -999999999999999;
+            }
+
             if (operator === '') {
-                a = parseInt(a + button.textContent);
-                updateDisplay(a);
+                if (a < 999999999999999 && a > -999999999999999) {
+                    a = parseInt(a + button.textContent);
+                    updateDisplay(a);
+                }
             }
             else{
                 if (equalSign.textContent.indexOf('=') > -1) {
@@ -207,8 +278,10 @@ function calcActions() {
                         b = 0;
                     }
                     console.log(b);
-                    b = parseInt(b + button.textContent);
-                    updateDisplay(b);
+                    if (b < 999999999999999 && b > -999999999999999) {
+                        b = parseInt(b + button.textContent);
+                        updateDisplay(b);
+                    }
                 }
             }
             console.log(a + " " + operator + " " + b);
@@ -223,17 +296,29 @@ function calcActions() {
             console.log(b);
             if (a !== undefined && b !== undefined) {
                 a = operate(lastOperator, a, b);
+                if (a >= 999999999999999 || a <= -999999999999999) {
+                    a = 'Overflow';
+                }
                 console.log("189: " + a);
-                if (equalSign.textContent.indexOf('=') > -1 && display.textContent !== 'Error'){
+                if (equalSign.textContent.indexOf('=') > -1 && (display.textContent !== 'Error' || display.textContent !== 'Overflow')) {
                     a = parseInt(display.textContent);
                 }
-                if (a === Infinity || isNaN(a)) {
+                if ((a === Infinity || isNaN(a)) && a !== 'Overflow') {
+
+                    console.log("line 195: " + a);
                     clearResult();
                     a = undefined;
                     b = undefined;
                     operator = '';
                     updateDisplay('Error');
                     console.log("line 131: " + a + " " + operator + " " + b);
+                } else if (a === 'Overflow'){
+                    clearDisplay();
+                    a = undefined;
+                    b = undefined;
+                    operator = '';
+                    updateDisplay('Overflow');
+                    console.log("line 136: " + a + " " + operator + " " + b);
                 } else {
                     updateDisplay(a);
                     b = undefined;
