@@ -51,6 +51,10 @@ const operate = function (operator, a, b) {
             let display = document.querySelector('.display__history');
             display.color = 'black';
             display.textContent = a + " " + operator + " " + b + ' =';
+            a = undefined;
+            b = undefined;
+            operator = '';
+            updateDisplay('Error');
         }
         return divide(a, b);
     } else if (operator === '^') {
@@ -291,40 +295,53 @@ function calcActions() {
     const operatorButtons = document.querySelectorAll('.buttons__item--operator');
     operatorButtons.forEach((button) => {
         button.addEventListener('click', () => {
-            lastOperator = operator;
-            operator = button.textContent;
-            console.log(b);
-            if (a !== undefined && b !== undefined) {
-                a = operate(lastOperator, a, b);
-                if (a >= 999999999999999 || a <= -999999999999999) {
-                    a = 'Overflow';
-                }
-                console.log("189: " + a);
-                if (equalSign.textContent.indexOf('=') > -1 && (display.textContent !== 'Error' || display.textContent !== 'Overflow')) {
-                    a = parseInt(display.textContent);
-                }
-                if ((a === Infinity || isNaN(a)) && a !== 'Overflow') {
-
-                    console.log("line 195: " + a);
-                    clearResult();
-                    a = undefined;
-                    b = undefined;
-                    operator = '';
+            if (display.textContent === 'Error' || display.textContent === 'Overflow') {
+                clearDisplay();
+                a = undefined;
+                b = undefined;
+                operator = '';
+                if (display.textContent === 'Error') {
                     updateDisplay('Error');
-                    console.log("line 131: " + a + " " + operator + " " + b);
-                } else if (a === 'Overflow'){
-                    clearDisplay();
-                    a = undefined;
-                    b = undefined;
-                    operator = '';
-                    updateDisplay('Overflow');
-                    console.log("line 136: " + a + " " + operator + " " + b);
-                } else {
-                    updateDisplay(a);
-                    b = undefined;
                 }
+                else {
+                    updateDisplay('Overflow');
+                }
+            } else {
+                lastOperator = operator;
+                operator = button.textContent;
+                console.log(b);
+                if (a !== undefined && b !== undefined) {
+                    a = operate(lastOperator, a, b);
+                    if (a >= 999999999999999 || a <= -999999999999999) {
+                        a = 'Overflow';
+                    }
+                    console.log("189: " + a);
+                    if (equalSign.textContent.indexOf('=') > -1 && (display.textContent !== 'Error' || display.textContent !== 'Overflow')) {
+                        a = parseInt(display.textContent);
+                    }
+                    if ((a === Infinity || isNaN(a)) && a !== 'Overflow') {
+
+                        console.log("line 195: " + a);
+                        clearResult();
+                        a = undefined;
+                        b = undefined;
+                        operator = '';
+                        updateDisplay('Error');
+                        console.log("line 131: " + a + " " + operator + " " + b);
+                    } else if (a === 'Overflow'){
+                        clearDisplay();
+                        a = undefined;
+                        b = undefined;
+                        operator = '';
+                        updateDisplay('Overflow');
+                        console.log("line 136: " + a + " " + operator + " " + b);
+                    } else {
+                        updateDisplay(a);
+                        b = undefined;
+                    }
+                }
+                historyDisplay();
             }
-            historyDisplay();
         });
     });
 }
