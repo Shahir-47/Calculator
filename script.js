@@ -89,9 +89,13 @@ equalsButton.addEventListener('click', () => {
     let display = document.querySelector('.display__history');
     display.color = 'black';
     if (!isNaN(a) && !isNaN(b)) {
-        result = operate(operator, a, b);
+        result = operate(operator, parseFloat(a), parseFloat(b));
         if (result >= 999999999999999 || result <= -999999999999999) {
             result = 'Overflow';
+        }
+        if (result.toString().length > 16) {
+            result = parseFloat(result).toFixed(16);
+            result = result.slice(0, -2)
         }
         if (result === Infinity || isNaN(result) && result !== 'Overflow') {
             clearResult();
@@ -147,7 +151,7 @@ function deleteLast() {
             console.log("line 97: " + a);
             if (b == undefined) {
 
-                a = parseInt(a.toString().slice(0, -1));
+                a = parseFloat(a.toString().slice(0, -1));
                 if (isNaN(a) || a === 0) {
                     a = 0;
                 }
@@ -155,7 +159,7 @@ function deleteLast() {
             }
             else {
                 console.log("line 102: " + b);
-                b = parseInt(b.toString().slice(0, -1));
+                b = parseFloat(b.toString().slice(0, -1));
                 if (isNaN(b) || b === 0) {
                     b = 0;
                 }
@@ -180,7 +184,7 @@ factorialButton.addEventListener('click', () => {
     let display = document.querySelector('.display__result');
     let equalSign = document.querySelector('.display__history');
     // equalSign.color = 'black';
-    // a = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
+    // a = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
     if (!(equalSign.textContent.indexOf('!') > -1)) {
 
     
@@ -193,9 +197,15 @@ factorialButton.addEventListener('click', () => {
                     b = undefined;
                     operator = '';
                     updateDisplay('Overflow');
+                } else if (Number.isInteger(parseFloat(b)) === false) {
+                    clearResult();
+                    a = undefined;
+                    b = undefined;
+                    operator = '';
+                    updateDisplay('Error');
                 }
                 else {
-                    b = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
+                    b = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
                     if (b == 'Overflow') {
                         clearDisplay();
                         a = undefined;
@@ -204,7 +214,7 @@ factorialButton.addEventListener('click', () => {
                         updateDisplay('Overflow');
                     } else {
                         console.log("line 166: " + b);
-                        display.textContent = operate(operator, parseInt(equalSign.textContent), parseInt(b));
+                        display.textContent = operate(operator, parseFloat(equalSign.textContent), parseFloat(b));
                     }
                 }
             } else {
@@ -216,8 +226,14 @@ factorialButton.addEventListener('click', () => {
                     b = undefined;
                     operator = '';
                     updateDisplay('Overflow');
+                } else if (Number.isInteger(parseFloat(a)) === false) {
+                    clearDisplay();
+                    a = undefined;
+                    b = undefined;
+                    operator = '';
+                    updateDisplay('Error');
                 } else {
-                    a = parseInt(parseInt(recursiveFactorial(parseInt(display.textContent))));
+                    a = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
                     console.log("line 198: " + a);
                     if (a == 'Overflow') {
                         clearDisplay();
@@ -252,24 +268,49 @@ function calcActions() {
                 a = 0;
             }
 
-            if (a >= 999999999999999) {
-                console.log("Too many numbers");
-                a = 999999999999999;
+            if (a > 999999999999999) {
+                Array(15).fill('a').forEach(item => console.log(item));
             }
-            else if (a <= -999999999999999) {
-                a = -999999999999999;
+            else if (a < -999999999999999) {
+                Array(15).fill('a').forEach(item => console.log(item));;
             }
 
-            if (b >= 999999999999999) {
-                b = 999999999999999;
+            if (b > 999999999999999) {
+                Array(15).fill('b').forEach(item => console.log(item));
             }
-            else if (b <= -999999999999999) {
-                b = -999999999999999;
+            else if (b < -999999999999999) {
+                Array(15).fill('b').forEach(item => console.log(item));
             }
 
             if (operator === '') {
                 if (a < 999999999999999 && a > -999999999999999) {
-                    a = parseInt(a + button.textContent);
+                    console.log(a + button.textContent);
+                    a = a + button.textContent;
+
+                    let occurrences_a = a.split('.').length - 1;
+                    if (occurrences_a > 1) {
+                        a = a.slice(0, -1);
+                    }
+
+                    if (a.length > 16) {
+                        a = parseFloat(a).toFixed(16);
+                        a = a.slice(0, -2)
+                    }
+
+                    console.log(Number.isInteger(a[a.indexOf('.') + 1]));
+                    if (a.indexOf('.') > -1 && Number.isInteger(a[a.indexOf('.') + 1])) {
+                        let temp = a.split('.');
+                        console.log(temp);
+                        if (temp[1].length > 15) {
+                            a = parseFloat(a).toFixed(15);
+                        }
+                        temp[0] = parseFloat(temp[0]);
+                        a = parseFloat(temp.join('.'));
+                    } else if (a.indexOf('.') > -1) {
+                        a = a
+                    } else {
+                        a = parseFloat(a);
+                    }
                     updateDisplay(a);
                 }
             }
@@ -283,7 +324,31 @@ function calcActions() {
                     }
                     console.log(b);
                     if (b < 999999999999999 && b > -999999999999999) {
-                        b = parseInt(b + button.textContent);
+                        b = b + button.textContent;
+
+                        let occurrences_b = b.split('.').length - 1;
+                        if (occurrences_b > 1) {
+                            b = b.slice(0, -1);
+                        }
+
+                        if (b.length > 16) {
+                            b = parseFloat(b).toFixed(16);
+                            b = b.slice(0, -2)
+                        }
+
+                        if (b.indexOf('.') > -1 && Number.isInteger(b[b.indexOf('.') + 1])) {
+                            let temp = b.split('.');
+                            console.log(temp);
+                            if (temp[1].length > 15) {
+                                b = parseFloat(b).toFixed(15);
+                            }
+                            temp[0] = parseFloat(temp[0]);
+                            b = parseFloat(temp.join('.'));
+                        } else if (b.indexOf('.') > -1) {
+                            b = b
+                        } else {
+                            b = parseFloat(b);
+                        }
                         updateDisplay(b);
                     }
                 }
@@ -313,13 +378,19 @@ function calcActions() {
                 operator = button.textContent;
                 console.log(b);
                 if (a !== undefined && b !== undefined) {
-                    a = operate(lastOperator, a, b);
+                    a = operate(lastOperator, parseFloat(a), parseFloat(b));
                     if (a >= 999999999999999 || a <= -999999999999999) {
                         a = 'Overflow';
                     }
+                    console.log("line 381: " + a + "a.type: " + a.toString().length);
+                    if (a.toString().length > 16) {
+                        a = parseFloat(a).toFixed(16);
+                        a = a.slice(0, -2)
+                        console.log("line 382: " + a);
+                    }
                     console.log("189: " + a);
                     if (equalSign.textContent.indexOf('=') > -1 && (display.textContent !== 'Error' || display.textContent !== 'Overflow')) {
-                        a = parseInt(display.textContent);
+                        a = parseFloat(display.textContent);
                     }
                     if ((a === Infinity || isNaN(a)) && a !== 'Overflow') {
 
