@@ -35,4 +35,4 @@ This is a simple calculator application with keyboard support. It allows you to 
 This project is licensed under the MIT License.
 
 ## Author
-This calculator application was created by Shahir Ahmed.
+This calculator application was created by [Shahir Ahmed](https://github.com/shahir-47).
