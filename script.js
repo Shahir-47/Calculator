@@ -84,12 +84,15 @@ function clearDisplay() {
     display.textContent = '';
 }
 
+// for the equals button
 const equalsButton = document.querySelector('.buttons__item--equal');
 equalsButton.addEventListener('click', () => {
+    console.log("enetr")
     let display = document.querySelector('.display__history');
     display.color = 'black';
     if (!isNaN(a) && !isNaN(b)) {
         result = operate(operator, parseFloat(a), parseFloat(b));
+        console.log("line 95: " + result);
         if (result >= 999999999999999 || result <= -999999999999999) {
             result = 'Overflow';
         }
@@ -119,6 +122,7 @@ equalsButton.addEventListener('click', () => {
     }
 });
 
+// clear button
 const clearButton = document.querySelector('.buttons__item--clear');
 clearButton.addEventListener('click', () => {
     clearDisplay();
@@ -127,6 +131,8 @@ clearButton.addEventListener('click', () => {
     operator = '';
 });
 
+
+// undo last number
 function deleteLast() {
     let equalSign = document.querySelector('.display__history');
     equalSign.color = 'black';
@@ -174,11 +180,14 @@ function deleteLast() {
     }
 }
 
+
+// backspace button
 const deleteButton = document.querySelector('.buttons__item--backspace');
 deleteButton.addEventListener('click', () => {
     deleteLast();
 });
 
+// factorial button
 const factorialButton = document.querySelector('.buttons__item--factorial');
 factorialButton.addEventListener('click', () => {
     let display = document.querySelector('.display__result');
@@ -226,13 +235,17 @@ factorialButton.addEventListener('click', () => {
                     b = undefined;
                     operator = '';
                     updateDisplay('Overflow');
-                } else if (Number.isInteger(parseFloat(a)) === false) {
+                } else if (Number.isInteger(parseFloat(a)) === false && a !== undefined) {
                     clearDisplay();
                     a = undefined;
                     b = undefined;
                     operator = '';
                     updateDisplay('Error');
                 } else {
+                    if (a === undefined) {
+                        display.textContent = 0;
+                        equalSign.textContent = display.textContent + '!';
+                    }
                     a = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
                     console.log("line 198: " + a);
                     if (a == 'Overflow') {
@@ -256,11 +269,13 @@ function clearResult() {
     display.textContent = '';
 }
 
+// number and operator buttons
 function calcActions() {
     let display = document.querySelector('.display__result');
     let equalSign = document.querySelector('.display__history');
     equalSign.color = 'black';
 
+    //number
     const numberButtons = document.querySelectorAll('.buttons__item--number');
     numberButtons.forEach((button) => {
         button.addEventListener('click', () => {
@@ -359,6 +374,7 @@ function calcActions() {
         });
     });
 
+    // operator
     const operatorButtons = document.querySelectorAll('.buttons__item--operator');
     operatorButtons.forEach((button) => {
         button.addEventListener('click', () => {
@@ -419,4 +435,62 @@ function calcActions() {
     });
 }
 
+// call to operator and number buttons
 calcActions();
+
+
+// keyboard support
+document.addEventListener('keydown', (event) => {
+    let display = document.querySelector('.display__result');
+    let equalSign = document.querySelector('.display__history');
+    equalSign.color = 'black';
+
+    console.log(event);
+    event.preventDefault();
+
+     // Helper function to simulate a click
+    function handleButtonClick(selector) {
+        const button = document.querySelector(selector);
+        button.click();
+        button.classList.add('active');
+
+        setTimeout(() => {
+            button.classList.remove('active');
+        }, 100); // Remove the "active" class after a short delay
+    }
+     
+    if (event.key === 'Enter' || event.key === '=' || event.code === 'NumpadEnter') {
+        handleButtonClick('.buttons__item--equal');
+    } 
+    else if (event.key === 'Backspace') {
+        handleButtonClick('.buttons__item--backspace');
+    } 
+    else if (event.key === 'Escape' || event.key === 'c' || event.key === 'C' || event.key === 'Delete') {
+        handleButtonClick('.buttons__item--clear');
+    }
+    else if (event.key >= '0' && event.key <= '9' || (!isNaN(event.code.slice(-1))) && event.code.startsWith('Numpad')) {
+        const num = parseInt(event.key) === isNaN(parseInt(event.key)) ? event.key : event.code.slice(-1);
+        handleButtonClick(`.num-${num}`);
+    }
+    else if (event.key === '.' || event.code === 'NumpadDecimal') {
+        handleButtonClick('.num-dot');
+    } 
+    else if (event.key === '+') {
+        handleButtonClick('.num-plus');
+    } 
+    else if (event.key === '-') {
+        handleButtonClick('.num-minus');
+    } 
+    else if (event.key === '*' || event.key === 'x' || event.key === 'X') {
+        handleButtonClick('.num-multiply');
+    } 
+    else if (event.key === '/') {
+        handleButtonClick('.num-divide');
+    } 
+    else if (event.key === '^') {
+        handleButtonClick('.num-power');
+    } 
+    else if (event.key === '!') {
+        handleButtonClick('.buttons__item--factorial');
+    }
+});

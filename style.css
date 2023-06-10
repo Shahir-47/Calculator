@@ -80,6 +80,12 @@ button:active {
     transform: translateY(4px);
 }
 
+.active{
+    background-color: #DCDCDC;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
 .buttons{
     width: 350px;
     display: flex;
