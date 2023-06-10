@@ -1,7 +1,42 @@
-body{
+/* body{
     display: flex;
     justify-content: center;
     align-items: center;
+} */
+
+body {
+    margin-top: 0px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1{
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+    font-weight: 400;
+}
+
+h3{
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 400;
+}
+
+.footer p{
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 400;
 }
 
 .calculator{
