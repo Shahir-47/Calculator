@@ -31,15 +31,6 @@ h3{
     font-weight: 400;
 }
 
-.footer p{
-    margin-top: 20px;
-    margin-bottom: 15px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
-    text-align: center;
-    font-weight: 400;
-}
-
 .calculator{
     background-color: #E8E8E8;
     width: 380px;
