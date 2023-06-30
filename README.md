@@ -32,7 +32,7 @@ This is a simple calculator application with keyboard support. It allows you to 
 - JavaScript
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 This calculator application was created by [Shahir Ahmed](https://github.com/shahir-47).
