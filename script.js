@@ -193,9 +193,13 @@ factorialButton.addEventListener('click', () => {
     let equalSign = document.querySelector('.display__history');
     if (!(equalSign.textContent.indexOf('!') > -1)) {
         if (display.textContent !== 'Error') {
+            if (equalSign.textContent.indexOf('=') > -1) {
+                a = Number(display.textContent);
+                b = undefined;
+            }
             if (b !== undefined) {
                 equalSign.textContent = equalSign.textContent + display.textContent + '!';
-                if (b > 18) {
+                if (Math.abs(b) > 18) {
                     clearResult();
                     a = undefined;
                     b = undefined;
@@ -224,7 +228,7 @@ factorialButton.addEventListener('click', () => {
             } else {
                 equalSign.textContent = display.textContent + '!';
                 
-                if (a > 18) {
+                if (Math.abs(a) > 18) {
                     clearDisplay();
                     a = undefined;
                     b = undefined;
@@ -241,7 +245,12 @@ factorialButton.addEventListener('click', () => {
                         display.textContent = 0;
                         equalSign.textContent = display.textContent + '!';
                     }
-                    a = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
+                    if (a < 0) {
+                        a = parseFloat(parseFloat(recursiveFactorial(Math.abs(parseFloat(display.textContent)))));
+                        a = -a;
+                    } else {
+                        a = parseFloat(parseFloat(recursiveFactorial(parseFloat(display.textContent))));
+                    }
                     
                     if (a == 'Overflow') {
                         clearDisplay();
